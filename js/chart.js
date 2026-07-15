@@ -48,8 +48,9 @@ export function initChart(container, updateCb) {
             min: 80,
             max: 120,
             name: 'Y',
-            nameLocation: 'middle',
-            nameGap: 40,
+            nameLocation: 'end',
+            nameRotate: 0,
+            nameGap: 15,
             splitLine: { lineStyle: { type: 'dashed' } },
             axisLabel: {
                 formatter: (value) => value.toFixed(1)

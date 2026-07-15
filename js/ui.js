@@ -13,26 +13,33 @@ export function updateStatsUI() {
     const { points, regression, statistics } = state;
     const n = points.length;
 
-    // --- 1. 更新统计面板 ---
-    const elN = document.getElementById('stat-n');
-    const elMean = document.getElementById('stat-mean');
-    const elSd = document.getElementById('stat-sd');
-    const elCov = document.getElementById('stat-cov');
-    const elR = document.getElementById('stat-r');
-    const elR2 = document.getElementById('stat-r2');
-    const elEquation = document.getElementById('stat-equation');
-
-    if (elN) elN.textContent = String(n);
-    if (elMean) elMean.textContent = `${roundNumber(statistics.meanX, 2)}, ${roundNumber(statistics.meanY, 2)}`;
-    if (elSd) elSd.textContent = `${roundNumber(statistics.sdX, 2)}, ${roundNumber(statistics.sdY, 2)}`;
-    if (elCov) elCov.textContent = String(roundNumber(statistics.covariance, 3));
-    if (elR) elR.textContent = String(roundNumber(statistics.r, 4));
-    if (elR2) elR2.textContent = String(roundNumber(regression.r2, 4));
-
-    if (elEquation) {
+    // --- 1. 更新统计面板 (使用 KaTeX 渲染公式) ---
+    const statPanel = document.getElementById('math-stats-container');
+    if (statPanel && window.katex) {
         const sign = regression.intercept >= 0 ? '+' : '-';
         const absIntercept = Math.abs(roundNumber(regression.intercept, 3));
-        elEquation.textContent = `y = ${roundNumber(regression.slope, 3)}x ${sign} ${absIntercept}`;
+        
+        // 构建多行居中的 LaTeX 公式，增加行间距 [1.5ex]
+          const tex = `\\begin{gathered}
+  n = ${n} \\\\[1.5ex]
+  \\bar{x} = ${roundNumber(statistics.meanX, 2)} \\\\[1.5ex]
+  \\bar{y} = ${roundNumber(statistics.meanY, 2)} \\\\[1.5ex]
+  S_x = ${roundNumber(statistics.sdX, 2)} \\\\[1.5ex]
+  S_y = ${roundNumber(statistics.sdY, 2)} \\\\[1.5ex]
+  \\text{Cov}(x,y) = ${roundNumber(statistics.covariance, 3)} \\\\[1.5ex]
+  r = ${roundNumber(statistics.r, 4)} \\\\[1.5ex]
+  R^2 = ${roundNumber(regression.r2, 4)} \\\\[1.5ex]
+  \\hat{y} = ${roundNumber(regression.slope, 3)}x ${sign} ${absIntercept}
+  \\end{gathered}`;
+
+        try {
+            katex.render(tex, statPanel, {
+                displayMode: true,
+                throwOnError: false
+            });
+        } catch (e) {
+            console.error("KaTeX rendering error:", e);
+        }
     }
 
     // 同步顶部输入框和滑块（如果不处于聚焦状态）
