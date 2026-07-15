@@ -53,54 +53,74 @@ function generateDataForTargetR(targetR) {
  * @param {Function} updateCallback - 触发全局更新的回调函数
  */
 export function initInteractions(updateCallback) {
-    // 1. 绑定添加数据点
-    const btnAdd = document.getElementById('btn-add-point');
-    if (btnAdd) {
-        btnAdd.addEventListener('click', () => {
-            const { meanX, meanY } = state.statistics;
-            state.points.push({
-                x: meanX || 100,
-                y: meanY || 100
-            });
+    // 1. 模式切换绑定
+    const modeBtns = document.querySelectorAll('.mode-btn');
+    modeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            state.interactionMode = btn.dataset.mode;
+            
+            // 切换模式后刷新图表以更新 graphic 状态
             updateCallback();
         });
-    }
+    });
 
-    // 2. 绑定删除数据点
-    const btnDelete = document.getElementById('btn-delete-point');
-    if (btnDelete) {
-        btnDelete.addEventListener('click', () => {
-            if (state.points.length > 3) {
-                state.points.pop(); // 删除最后一个点
-                updateCallback();
-            } else {
-                alert('至少保留3个数据点！');
-            }
+    // 2. 缩放控制绑定
+    const zoomSlider = document.getElementById('zoom-slider');
+    const zoomValueText = document.getElementById('zoom-value');
+    if (zoomSlider) {
+        zoomSlider.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            state.zoomLevel = val;
+            if (zoomValueText) zoomValueText.textContent = `${val}%`;
+            updateCallback();
         });
     }
 
     // 3. 绑定目标相关系数滑块和输入框
     const rInput = document.getElementById('r-input');
     const rSlider = document.getElementById('r-slider');
-
+    
     if (rInput && rSlider) {
         const handleRChange = (e) => {
             let val = parseFloat(e.target.value);
             if (isNaN(val)) val = 0;
             val = Math.max(-1, Math.min(1, val));
             
-            // 同步另一个控件
             rInput.value = val;
             rSlider.value = val;
 
-            // 重新生成数据并更新
             generateDataForTargetR(val);
             updateCallback();
         };
 
-        // 监听滑块拖动
         rSlider.addEventListener('input', handleRChange);
-        // 监听输入框修改
         rInput.addEventListener('change', handleRChange);
     }
+}
+
+/**
+ * 处理点删除的逻辑
+ * @param {number} index - 要删除的点的索引
+ * @param {Function} updateCallback - 更新回调
+ */
+export function confirmDeletePoint(index, updateCallback) {
+    const point = state.points[index];
+    const confirmed = confirm(`是否删除点 (${point.x.toFixed(2)}, ${point.y.toFixed(2)})？`);
+    if (confirmed) {
+        state.points.splice(index, 1);
+        updateCallback();
+    }
+}
+
+/**
+ * 处理在画布上点击添加点的逻辑
+ * @param {number} x - 坐标系中的 X
+ * @param {number} y - 坐标系中的 Y
+ * @param {Function} updateCallback - 更新回调
+ */
+export function addPointAt(x, y, updateCallback) {
+    state.points.push({ x, y });
+    updateCallback();
 }
