@@ -27,7 +27,7 @@ export function updateStatsUI() {
   S_x = ${roundNumber(statistics.sdX, 2)} \\\\[1.5ex]
   S_y = ${roundNumber(statistics.sdY, 2)} \\\\[1.5ex]
   \\text{Cov}(x,y) = ${roundNumber(statistics.covariance, 3)} \\\\[1.5ex]
-  r = ${roundNumber(statistics.r, 4)} \\\\[1.5ex]
+  R = ${roundNumber(statistics.r, 4)} \\\\[1.5ex]
   R^2 = ${roundNumber(regression.r2, 4)} \\\\[1.5ex]
   \\hat{y} = ${roundNumber(regression.slope, 3)}x ${sign} ${absIntercept}
   \\end{gathered}`;
