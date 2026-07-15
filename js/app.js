@@ -5,8 +5,8 @@
 
 import { state } from './state.js';
 import { getRandomFloat } from './utils.js';
-import { calculateLinearRegression } from './regression.js';
-import { calculatePearsonCorrelation, calculateRSquared } from './statistics.js';
+import { calculateStatistics } from './statistics.js';
+import { calculateRegression } from './regression.js';
 import { initChart, updateChart } from './chart.js';
 import { updateTable } from './table.js';
 import { updateStatsUI } from './ui.js';
@@ -28,24 +28,24 @@ function initData() {
 }
 
 /**
- * 统一的页面刷新机制
- * 每当数据发生变化（如拖拽、增删），都应调用此函数进行全局同步
+ * 统一的页面刷新机制 (Data Driven)
+ * 任何交互只修改 state.points，然后调用此方法
  */
 function update() {
-    // 1. 重新计算所有统计量
-    const regressionModel = calculateLinearRegression(state.points);
-    const r = calculatePearsonCorrelation(state.points);
-    const r2 = calculateRSquared(r);
-    const n = state.points.length;
+    // 1. 计算描述性统计量
+    state.statistics = calculateStatistics(state.points);
 
-    // 2. 刷新中间图表
-    updateChart(state.points, regressionModel);
+    // 2. 计算回归及 ANOVA 统计量
+    state.regression = calculateRegression(state.points, state.statistics);
 
-    // 3. 刷新右侧统计量
-    updateStatsUI(regressionModel, r, r2, n);
+    // 3. 刷新中间图表（散点与回归线）
+    updateChart();
 
-    // 4. 刷新左侧数据表
-    updateTable(state.points);
+    // 4. 刷新右侧与底部的统计量面板
+    updateStatsUI();
+
+    // 5. 刷新左侧数据表
+    updateTable();
 }
 
 /**
@@ -55,9 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. 初始化数据
     initData();
 
-    // 2. 初始化 ECharts 实例
+    // 2. 初始化 ECharts 实例，传入 update 作为拖拽回调
     const chartContainer = document.getElementById('main-chart');
-    initChart(chartContainer);
+    initChart(chartContainer, update);
 
     // 3. 绑定交互事件（传入全局 update 引用）
     initInteractions(update);

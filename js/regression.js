@@ -1,39 +1,75 @@
 /**
  * 回归分析算法模块
- * 负责计算一元线性回归的各项参数
+ * 负责计算一元线性回归的各项参数及 ANOVA 统计量
  */
 
-import { calculateMean } from './utils.js';
+import { calculateMean, getPValueTTest } from './utils.js';
 
 /**
- * 计算一元线性回归参数 (普通最小二乘法 OLS)
- * 拟合方程：y = b1 * x + b0
- * @param {Array<{x: number, y: number}>} points - 数据点数组
- * @returns {{slope: number, intercept: number}} 回归直线的斜率 (b1) 和截距 (b0)
+ * 计算一元线性回归及其所有相关统计量
+ * @param {Array<{x: number, y: number}>} points 
+ * @param {Object} stats - 已计算的描述性统计量
+ * @returns {Object} 回归模型结果
  */
-export function calculateLinearRegression(points) {
-    if (!points || points.length < 2) {
-        return { slope: 0, intercept: 0 };
+export function calculateRegression(points, stats) {
+    const n = points.length;
+    if (n < 3) { // 至少3个点才能计算回归和残差(df=n-2)
+        return { slope: 0, intercept: 0, r2: 0, sst: 0, ssr: 0, sse: 0, msr: 0, mse: 0, f: 0, p: 1 };
     }
 
-    const xs = points.map(p => p.x);
-    const ys = points.map(p => p.y);
+    const { meanX, meanY, r } = stats;
 
-    const meanX = calculateMean(xs);
-    const meanY = calculateMean(ys);
+    let sumSqX = 0;
+    let sumXY = 0;
 
-    let numerator = 0;   // 分子：Σ(x_i - x_mean) * (y_i - y_mean)
-    let denominator = 0; // 分母：Σ(x_i - x_mean)^2
-
-    for (let i = 0; i < points.length; i++) {
-        const dx = xs[i] - meanX;
-        const dy = ys[i] - meanY;
-        numerator += dx * dy;
-        denominator += dx * dx;
+    for (let i = 0; i < n; i++) {
+        const dx = points[i].x - meanX;
+        const dy = points[i].y - meanY;
+        sumSqX += dx * dx;
+        sumXY += dx * dy;
     }
 
-    const slope = denominator === 0 ? 0 : numerator / denominator;
+    const slope = sumSqX === 0 ? 0 : sumXY / sumSqX;
     const intercept = meanY - slope * meanX;
 
-    return { slope, intercept };
+    // 计算 SS
+    let sse = 0;
+    let sst = 0;
+
+    for (let i = 0; i < n; i++) {
+        const y = points[i].y;
+        const yHat = slope * points[i].x + intercept;
+        
+        sse += Math.pow(y - yHat, 2);
+        sst += Math.pow(y - meanY, 2);
+    }
+
+    const ssr = sst - sse;
+    
+    const df_r = 1;
+    const df_e = n - 2;
+
+    const msr = ssr / df_r;
+    const mse = sse / df_e;
+
+    const f = mse === 0 ? 0 : msr / mse;
+    
+    // 一元线性回归中 F = t^2
+    const t = Math.sqrt(f);
+    const p = mse === 0 ? 0 : getPValueTTest(t, df_e);
+
+    const r2 = r * r;
+
+    return {
+        slope,
+        intercept,
+        r2,
+        ssr,
+        sse,
+        sst,
+        msr,
+        mse,
+        f,
+        p
+    };
 }

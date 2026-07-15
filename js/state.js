@@ -9,5 +9,35 @@ export const state = {
      * 格式：[{x: 98.2, y: 101.4}, ...]
      * @type {Array<{x: number, y: number}>}
      */
-    points: []
+    points: [],
+
+    /**
+     * 回归分析相关的统计结果
+     */
+    regression: {
+        slope: 0,
+        intercept: 0,
+        r: 0,
+        r2: 0,
+        p: 0,
+        f: 0,
+        ssr: 0,
+        sse: 0,
+        sst: 0,
+        msr: 0,
+        mse: 0
+    },
+
+    /**
+     * 描述性统计量
+     */
+    statistics: {
+        meanX: 0,
+        meanY: 0,
+        varianceX: 0,
+        varianceY: 0,
+        covariance: 0,
+        sdX: 0,
+        sdY: 0
+    }
 };

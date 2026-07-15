@@ -10,9 +10,18 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- 顶部：页面标题 -->
+        <!-- 顶部：页面标题与控制栏 -->
         <header class="header">
-            <h1>一元线性回归分析可视化</h1>
+            <div class="header-title">
+                <h1>一元线性回归分析可视化</h1>
+            </div>
+            <div class="header-controls">
+                <div class="control-item">
+                    <label for="r-input">目标相关系数 (r):</label>
+                    <input type="number" id="r-input" min="-1" max="1" step="0.01" value="0.00">
+                    <input type="range" id="r-slider" min="-1" max="1" step="0.01" value="0.00">
+                </div>
+            </div>
         </header>
 
         <div class="main-content">
@@ -27,6 +36,10 @@
                                     <th>ID</th>
                                     <th>X</th>
                                     <th>Y</th>
+                                    <th>预测值(Ŷ)</th>
+                                    <th>(Y-Ȳ)²</th>
+                                    <th>(Ŷ-Ȳ)²</th>
+                                    <th>(Y-Ŷ)²</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,17 +53,33 @@
             <!-- 中间：ECharts 散点图 -->
             <main class="chart-area">
                 <div class="panel chart-panel">
+                    <div class="chart-controls">
+                        <button id="btn-add-point" class="btn">新增数据点</button>
+                        <button id="btn-delete-point" class="btn btn-danger">删除数据点</button>
+                    </div>
                     <div id="main-chart" style="width: 100%; height: 100%;"></div>
                 </div>
             </main>
 
             <!-- 右侧：统计量展示 -->
             <aside class="sidebar-right">
-                <div class="panel">
+                <div class="panel stat-panel">
                     <h2>统计指标</h2>
                     <div class="stat-item">
-                        <span class="stat-label">回归方程:</span>
-                        <span class="stat-value" id="stat-equation">y = 0x + 0</span>
+                        <span class="stat-label">样本量 (n):</span>
+                        <span class="stat-value" id="stat-n">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">均值 (X̄, Ȳ):</span>
+                        <span class="stat-value" id="stat-mean">0.00, 0.00</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">标准差 (SDx, SDy):</span>
+                        <span class="stat-value" id="stat-sd">0.00, 0.00</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">协方差 (Cov):</span>
+                        <span class="stat-value" id="stat-cov">0.000</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">相关系数 (r):</span>
@@ -60,10 +89,9 @@
                         <span class="stat-label">决定系数 (R²):</span>
                         <span class="stat-value" id="stat-r2">0.000</span>
                     </div>
-                    <!-- 预留的其他统计量 -->
                     <div class="stat-item">
-                        <span class="stat-label">样本量 (n):</span>
-                        <span class="stat-value" id="stat-n">0</span>
+                        <span class="stat-label">回归方程:</span>
+                        <span class="stat-value" id="stat-equation">y = 0x + 0</span>
                     </div>
                 </div>
             </aside>
@@ -88,27 +116,27 @@
                         <tbody>
                             <tr>
                                 <td>回归 (Regression)</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
+                                <td id="anova-ssr">-</td>
+                                <td id="anova-dfr">1</td>
+                                <td id="anova-msr">-</td>
+                                <td id="anova-f">-</td>
+                                <td id="anova-p">-</td>
                             </tr>
                             <tr>
                                 <td>残差 (Residual)</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
+                                <td id="anova-sse">-</td>
+                                <td id="anova-dfe">-</td>
+                                <td id="anova-mse">-</td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>总计 (Total)</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
+                                <td id="anova-sst">-</td>
+                                <td id="anova-dft">-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
