@@ -38,7 +38,10 @@ export function initChart(container, updateCb) {
             name: 'X',
             nameLocation: 'middle',
             nameGap: 30,
-            splitLine: { lineStyle: { type: 'dashed' } }
+            splitLine: { lineStyle: { type: 'dashed' } },
+            axisLabel: {
+                formatter: (value) => value.toFixed(1)
+            }
         },
         yAxis: {
             type: 'value',
@@ -47,7 +50,10 @@ export function initChart(container, updateCb) {
             name: 'Y',
             nameLocation: 'middle',
             nameGap: 40,
-            splitLine: { lineStyle: { type: 'dashed' } }
+            splitLine: { lineStyle: { type: 'dashed' } },
+            axisLabel: {
+                formatter: (value) => value.toFixed(1)
+            }
         },
         series: [
             {
@@ -104,8 +110,8 @@ export function updateChart() {
     const baseRange = 40;
     const currentRange = baseRange * (100 / zoomLevel);
     const center = 100;
-    const min = center - currentRange / 2;
-    const max = center + currentRange / 2;
+    const min = Number((center - currentRange / 2).toFixed(2));
+    const max = Number((center + currentRange / 2).toFixed(2));
 
     // 转换散点数据
     const scatterData = points.map(p => [p.x, p.y]);
