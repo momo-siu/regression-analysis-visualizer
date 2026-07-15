@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一元线性回归分析可视化</title>
+    <link rel="stylesheet" href="css/main.css">
+    <!-- 引入 Apache ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 顶部：页面标题 -->
+        <header class="header">
+            <h1>一元线性回归分析可视化</h1>
+        </header>
+
+        <div class="main-content">
+            <!-- 左侧：数据编辑区与数据表 -->
+            <aside class="sidebar-left">
+                <div class="panel">
+                    <h2>数据编辑</h2>
+                    <div class="table-container">
+                        <table id="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>X</th>
+                                    <th>Y</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 数据由 JavaScript 动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 中间：ECharts 散点图 -->
+            <main class="chart-area">
+                <div class="panel chart-panel">
+                    <div id="main-chart" style="width: 100%; height: 100%;"></div>
+                </div>
+            </main>
+
+            <!-- 右侧：统计量展示 -->
+            <aside class="sidebar-right">
+                <div class="panel">
+                    <h2>统计指标</h2>
+                    <div class="stat-item">
+                        <span class="stat-label">回归方程:</span>
+                        <span class="stat-value" id="stat-equation">y = 0x + 0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">相关系数 (r):</span>
+                        <span class="stat-value" id="stat-r">0.000</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">决定系数 (R²):</span>
+                        <span class="stat-value" id="stat-r2">0.000</span>
+                    </div>
+                    <!-- 预留的其他统计量 -->
+                    <div class="stat-item">
+                        <span class="stat-label">样本量 (n):</span>
+                        <span class="stat-value" id="stat-n">0</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- 底部：方差分析 (ANOVA) 表格占位 -->
+        <footer class="footer">
+            <div class="panel">
+                <h2>方差分析 (ANOVA)</h2>
+                <div class="table-container">
+                    <table class="anova-table">
+                        <thead>
+                            <tr>
+                                <th>方差来源</th>
+                                <th>平方和 (SS)</th>
+                                <th>自由度 (df)</th>
+                                <th>均方 (MS)</th>
+                                <th>F值</th>
+                                <th>p值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>回归 (Regression)</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>残差 (Residual)</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>总计 (Total)</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- 程序入口，采用 ES Module -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
