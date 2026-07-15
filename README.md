@@ -1,4 +1,4 @@
-# 一元线性回归分析可视化 (Regression Analysis Visualizer)
+# 一元线性回归分析 (Regression Analysis Visualizer)
 
 本项目是一个用于演示一元线性回归分析全过程的纯前端教学用统计可视化网站。旨在以直观的方式展示回归拟合过程，并为后续进一步扩展交互与深入统计分析提供高工程质量的基础框架。
 
