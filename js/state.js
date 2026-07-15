@@ -12,6 +12,19 @@ export const state = {
     points: [],
 
     /**
+     * 当前交互模式
+     * 'drag' - 拖拽移动
+     * 'add' - 点击添加
+     * 'delete' - 点击删除
+     */
+    interactionMode: 'drag',
+
+    /**
+     * 图表缩放比例 (100 表示 100%)
+     */
+    zoomLevel: 100,
+
+    /**
      * 回归分析相关的统计结果
      */
     regression: {
