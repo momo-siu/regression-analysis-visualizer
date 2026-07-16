@@ -72,26 +72,34 @@ function getBaseOption(xName, yName) {
             type: 'value',
             min: 80,
             max: 120,
-            name: xName,
+            name: 'X',
             nameLocation: 'middle',
             nameGap: 30,
-            splitLine: { lineStyle: { type: 'dashed', color: '#eee' } },
+            splitLine: { lineStyle: { type: 'dashed' } },
             axisLabel: {
-                formatter: (value) => value.toFixed(0)
+                formatter: (value) => value.toFixed(1)
             }
         },
         yAxis: {
             type: 'value',
             min: 80,
             max: 120,
-            name: yName,
+            name: 'Y',
             nameLocation: 'middle',
             nameRotate: 0,
             nameGap: 40,
-            splitLine: { lineStyle: { type: 'dashed', color: '#eee' } },
+            splitLine: { lineStyle: { type: 'dashed' } },
             axisLabel: {
-                formatter: (value) => value.toFixed(0)
+                formatter: (value) => value.toFixed(1)
             }
+        },
+        grid: {
+            left: 50,
+            right: 50,
+            top: 50,
+            bottom: 50,
+            width: 'auto',
+            height: 'auto'
         },
         series: [
             {
