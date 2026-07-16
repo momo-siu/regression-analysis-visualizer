@@ -198,6 +198,7 @@ function updateVennDiagram(container, r2) {
 
 /**
  * 渲染页面中带有 .math-render 类的 KaTeX 公式
+ * 支持格式： "文本 $公式$ 文本" 或 "$公式$"
  */
 function renderMathTitles() {
     if (!window.katex) return;
@@ -205,11 +206,23 @@ function renderMathTitles() {
     elements.forEach(el => {
         const text = el.textContent;
         if (text.includes('$')) {
-            const parts = text.split('$');
-            el.textContent = parts[0]; // 保留中文前缀
-            const span = document.createElement('span');
-            katex.render(parts[1], span, { throwOnError: false });
-            el.appendChild(span);
+            // 使用正则匹配所有 $...$ 部分
+            const parts = text.split(/(\$.*?\$)/);
+            el.textContent = ''; // 清空原始文本
+            
+            parts.forEach(part => {
+                if (part.startsWith('$') && part.endsWith('$')) {
+                    // 渲染 LaTeX 部分
+                    const formula = part.slice(1, -1);
+                    const span = document.createElement('span');
+                    katex.render(formula, span, { throwOnError: false });
+                    el.appendChild(span);
+                } else {
+                    // 保留普通文本部分
+                    const textSpan = document.createTextNode(part);
+                    el.appendChild(textSpan);
+                }
+            });
             el.classList.remove('math-render'); // 标记为已渲染
         }
     });
