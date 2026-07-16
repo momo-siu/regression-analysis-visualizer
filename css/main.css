@@ -471,16 +471,11 @@ th {
 }
 
 .sampling-controls {
-    flex: 0 0 450px; /* 加宽侧边栏以容纳端点标注 */
+    flex: 0 0 450px;
     background: #fcfcfc;
     border-right: 1px solid var(--border-color);
     padding-right: 20px;
-    color: #000; /* 强制纯黑 */
-}
-
-.sampling-item .range-endpoint {
-    min-width: 30px; /* 抽样面板内的标注可以稍微窄一点 */
-    text-align: center;
+    color: #000;
 }
 
 .control-group {
@@ -490,8 +485,8 @@ th {
 }
 
 .control-group h3 {
-    font-size: 18px; /* 放大字号 */
-    color: #000; /* 强制纯黑 */
+    font-size: 18px;
+    color: #000;
     margin-bottom: 12px;
     font-weight: bold;
 }
@@ -501,22 +496,48 @@ th {
     align-items: center;
     gap: 10px;
     margin-bottom: 8px;
+    width: 100%;
 }
 
 .sampling-item label {
-    width: 80px; /* 进一步加宽以防止“自定义”换行 */
+    width: 80px;
     font-size: 16px;
     color: #000;
-    white-space: nowrap; /* 强制不换行 */
+    white-space: nowrap;
+}
+
+/* 让滑动条及其端点整体靠右 */
+.sampling-item .range-endpoint:first-of-type {
+    margin-left: auto;
+}
+
+.sampling-item input[type="range"] {
+    width: 150px;
+    margin: 0;
+}
+
+.sampling-item .range-endpoint {
+    min-width: 30px;
+    text-align: center;
+    font-size: 12px;
+    color: #909399;
+}
+
+.sampling-item input[type="number"] {
+    width: 70px;
+    text-align: center;
+    padding: 4px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
 }
 
 .sampling-item input[type="number"]#r-custom-input {
-    width: 100px; /* 加宽自定义输入框以显示完整 placeholder */
+    width: 100px;
 }
 
 .static-info {
-    font-size: 14px; /* 放大字号 */
-    color: #000; /* 强制纯黑 */
+    font-size: 14px;
+    color: #000;
     background: #f4f4f5;
     padding: 8px;
     border-radius: 4px;
@@ -527,8 +548,8 @@ th {
     display: flex;
     gap: 15px;
     margin-bottom: 10px;
-    font-size: 16px; /* 放大字号 */
-    color: #000; /* 强制纯黑 */
+    font-size: 16px;
+    color: #000;
 }
 
 .analyze-btn {
@@ -575,15 +596,22 @@ th {
 .chart-legend {
     display: flex;
     gap: 15px;
+    align-items: center;
 }
 
 .legend-item {
-    font-size: 12px;
-    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 5px;
-    color: #909399; /* 默认灰色 */
+    cursor: pointer;
+    font-size: 13px;
+    color: #909399;
+    user-select: none;
+}
+
+.legend-item input[type="checkbox"] {
+    cursor: pointer;
+    margin: 0;
 }
 
 .legend-item.active[data-type="hist"] { color: #409eff; font-weight: bold; }
