@@ -195,9 +195,124 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+         </div>
+
+         <!-- 回归抽样模拟交互面板 -->
+         <div class="panel sampling-panel">
+             <h2>回归抽样模拟交互面板</h2>
+             <div class="sampling-container">
+                 <!-- 左侧：参数交互控制面板 -->
+                 <aside class="sampling-controls">
+                     <div class="control-group">
+                         <h3>1. X 变量参数</h3>
+                         <div class="sampling-item">
+                             <label>μ1:</label>
+                             <input type="number" id="mu1-input" value="20.0" step="0.1">
+                             <input type="range" id="mu1-slider" min="-200" max="200" step="0.1" value="20.0">
+                         </div>
+                         <div class="sampling-item">
+                             <label>σ1:</label>
+                             <input type="number" id="sigma1-input" value="4.0" step="0.1">
+                             <input type="range" id="sigma1-slider" min="1" max="100" step="0.1" value="4.0">
+                         </div>
+                     </div>
+
+                     <div class="control-group">
+                         <h3>2. Y 变量参数</h3>
+                         <div class="sampling-item">
+                             <label>μ2:</label>
+                             <input type="number" id="mu2-input" value="20.0" step="0.1">
+                             <input type="range" id="mu2-slider" min="-200" max="200" step="0.1" value="20.0">
+                         </div>
+                         <div class="sampling-item">
+                             <label>σ2:</label>
+                             <input type="number" id="sigma2-input" value="8.0" step="0.1">
+                             <input type="range" id="sigma2-slider" min="1" max="100" step="0.1" value="8.0">
+                         </div>
+                     </div>
+
+                     <div class="control-group">
+                         <h3>3. 标准化系数</h3>
+                         <div class="sampling-item">
+                             <label>Beta:</label>
+                             <input type="number" id="beta-input" value="0.000" step="0.001">
+                             <input type="range" id="beta-slider" min="-1" max="1" step="0.001" value="0.000">
+                         </div>
+                         <p class="static-info">非标准化系数 = 标准化系数*(σ2/σ1) = <span id="unstd-beta-val">0.000</span></p>
+                     </div>
+
+                     <div class="control-group">
+                         <h3>4. 样本量 (n)</h3>
+                         <div class="sampling-item">
+                             <label>n:</label>
+                             <input type="number" id="n-input" value="15">
+                             <input type="range" id="n-slider" min="2" max="100" value="15">
+                         </div>
+                     </div>
+
+                     <div class="control-group">
+                         <h3>5. 抽样重复次数 (R)</h3>
+                         <div class="radio-group">
+                             <label><input type="radio" name="r-choice" value="1"> 1</label>
+                             <label><input type="radio" name="r-choice" value="100"> 100</label>
+                             <label><input type="radio" name="r-choice" value="10000" checked> 10000</label>
+                         </div>
+                         <div class="sampling-item">
+                             <label>自定义:</label>
+                             <input type="number" id="r-custom-input" min="1" max="10000" placeholder="1~10000">
+                         </div>
+                     </div>
+
+                     <button id="analyze-btn" class="analyze-btn">分析</button>
+                 </aside>
+
+                 <!-- 右侧：分析结果展示区 (初始隐藏) -->
+                 <main id="sampling-results" class="sampling-results hidden">
+                     <div class="results-top">
+                         <div class="chart-header">
+                             <h3 class="math-render">斜率(b)分布</h3>
+                             <div class="chart-legend">
+                                 <span id="legend-hist" class="legend-item active" data-type="hist">斜率直方图</span>
+                                 <span id="legend-t" class="legend-item active" data-type="t">斜率拟合t分布曲线</span>
+                             </div>
+                         </div>
+                         <div id="sampling-chart" class="sampling-chart"></div>
+                         <div class="sampling-stats">
+                             <p>均值: <span id="b-mean">-</span></p>
+                             <p>标准误: <span id="b-se">-</span></p>
+                         </div>
+                     </div>
+                     <div class="results-bottom">
+                         <div class="table-header">
+                             <h3>分析结果（最后6次抽样）</h3>
+                             <button id="download-btn" class="download-btn">下载完整数据</button>
+                         </div>
+                         <div class="table-container">
+                             <table id="sampling-table">
+                                 <thead>
+                                     <tr>
+                                         <th>实验号</th>
+                                         <th>截距a</th>
+                                         <th>斜率b</th>
+                                         <th>t</th>
+                                         <th>p</th>
+                                         <th>F</th>
+                                         <th>p</th>
+                                         <th>相关系数r</th>
+                                         <th>Y的均值</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <!-- 动态生成 -->
+                                 </tbody>
+                             </table>
+                         </div>
+                     </div>
+                 </main>
+             </div>
+         </div>
+     </div>
+ </div>
     
     <!-- 程序入口，采用 ES Module -->
     <script type="module" src="js/app.js"></script>
