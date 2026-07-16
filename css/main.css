@@ -453,31 +453,6 @@ th {
     width: 100px; /* 加宽自定义输入框以显示完整 placeholder */
 }
 
-/* 抽样模拟面板内的滑轨美化 */
-.sampling-panel input[type="range"] {
-    -webkit-appearance: none;
-    height: 6px;
-    background: #dcdfe6;
-    border-radius: 5px;
-    background-image: linear-gradient(var(--primary-color), var(--primary-color));
-    background-repeat: no-repeat;
-}
-
-.sampling-panel input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    height: 18px;
-    width: 18px;
-    border-radius: 50%;
-    background: #1e1bc4; /* 深色滑块 */
-    cursor: pointer;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    transition: background .3s ease-in-out;
-}
-
-.sampling-panel input[type="range"]::-webkit-slider-thumb:hover {
-    background: #1a252f;
-}
-
 .static-info {
     font-size: 14px; /* 放大字号 */
     color: #000; /* 强制纯黑 */
