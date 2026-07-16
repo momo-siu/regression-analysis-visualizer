@@ -56,6 +56,9 @@ export function calculateStatistics(points) {
     return {
         meanX,
         meanY,
+        sumSqX,
+        sumSqY,
+        sumXY,
         varianceX,
         varianceY,
         sdX,

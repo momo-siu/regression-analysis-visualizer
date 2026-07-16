@@ -47,10 +47,14 @@ export const state = {
     statistics: {
         meanX: 0,
         meanY: 0,
+        sumSqX: 0,
+        sumSqY: 0,
+        sumXY: 0,
         varianceX: 0,
         varianceY: 0,
         covariance: 0,
         sdX: 0,
-        sdY: 0
+        sdY: 0,
+        r: 0
     }
 };

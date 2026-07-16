@@ -97,4 +97,33 @@ export function updateStatsUI() {
 
     if (elSst) elSst.textContent = String(roundNumber(regression.sst, 2));
     if (elDft) elDft.textContent = String(dft);
+
+    // --- 3. 更新统计量摘要表格 ---
+    const elStatMeanX = document.getElementById('stat-mean-x');
+    const elStatSSX = document.getElementById('stat-ss-x');
+    const elStatVarX = document.getElementById('stat-var-x');
+    const elStatSDX = document.getElementById('stat-sd-x');
+
+    const elStatMeanY = document.getElementById('stat-mean-y');
+    const elStatSSY = document.getElementById('stat-ss-y');
+    const elStatVarY = document.getElementById('stat-var-y');
+    const elStatSDY = document.getElementById('stat-sd-y');
+
+    const elStatSP = document.getElementById('stat-sp');
+    const elStatCov = document.getElementById('stat-cov');
+    const elStatR = document.getElementById('stat-r');
+
+    if (elStatMeanX) elStatMeanX.textContent = String(roundNumber(statistics.meanX, 3));
+    if (elStatSSX) elStatSSX.textContent = String(roundNumber(statistics.sumSqX, 3));
+    if (elStatVarX) elStatVarX.textContent = String(roundNumber(statistics.varianceX, 3));
+    if (elStatSDX) elStatSDX.textContent = String(roundNumber(statistics.sdX, 3));
+
+    if (elStatMeanY) elStatMeanY.textContent = String(roundNumber(statistics.meanY, 3));
+    if (elStatSSY) elStatSSY.textContent = String(roundNumber(statistics.sumSqY, 3));
+    if (elStatVarY) elStatVarY.textContent = String(roundNumber(statistics.varianceY, 3));
+    if (elStatSDY) elStatSDY.textContent = String(roundNumber(statistics.sdY, 3));
+
+    if (elStatSP) elStatSP.textContent = String(roundNumber(statistics.sumXY, 3));
+    if (elStatCov) elStatCov.textContent = String(roundNumber(statistics.covariance, 3));
+    if (elStatR) elStatR.textContent = String(roundNumber(statistics.r, 3));
 }
