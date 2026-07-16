@@ -306,7 +306,8 @@ function updateSamplingTable() {
     const tbody = document.querySelector('#sampling-table tbody');
     tbody.innerHTML = '';
     
-    const lastSix = allSamplingData.slice(-6).reverse();
+    // 获取最后 6 次抽样并按实验号从小到大正序排序
+    const lastSix = allSamplingData.slice(-6).sort((a, b) => a.id - b.id);
     
     lastSix.forEach(row => {
         const tr = document.createElement('tr');
