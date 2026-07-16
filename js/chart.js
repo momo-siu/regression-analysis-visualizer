@@ -22,6 +22,12 @@ export function initChart(container, updateCb) {
     
     const option = {
         animation: false,
+        grid: {
+            left: 50,
+            right: 50,
+            top: 50,
+            bottom: 50
+        },
         tooltip: {
             trigger: 'item',
             formatter: function (params) {
@@ -48,9 +54,9 @@ export function initChart(container, updateCb) {
             min: 80,
             max: 120,
             name: 'Y',
-            nameLocation: 'end',
-            nameRotate: 0,
-            nameGap: 15,
+            nameLocation: 'middle',
+            nameRotate: 90,
+            nameGap: 40,
             splitLine: { lineStyle: { type: 'dashed' } },
             axisLabel: {
                 formatter: (value) => value.toFixed(1)
