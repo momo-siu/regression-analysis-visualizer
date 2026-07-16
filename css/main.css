@@ -397,3 +397,179 @@ th {
     z-index: 10;
     transform: translateY(-50%);
 }
+
+/* 抽样模拟面板样式 */
+.sampling-panel {
+    margin-top: 16px;
+}
+
+.sampling-container {
+    display: flex;
+    gap: 24px;
+    min-height: 600px;
+}
+
+.sampling-controls {
+    flex: 0 0 300px;
+    background: #fcfcfc;
+    border-right: 1px solid var(--border-color);
+    padding-right: 20px;
+}
+
+.control-group {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.control-group h3 {
+    font-size: 14px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.sampling-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.sampling-item label {
+    width: 45px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.sampling-item input[type="number"] {
+    width: 60px;
+    padding: 3px;
+    font-size: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.sampling-item input[type="range"] {
+    flex: 1;
+}
+
+.static-info {
+    font-size: 12px;
+    color: #909399;
+    background: #f4f4f5;
+    padding: 6px;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.analyze-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #67c23a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.analyze-btn:hover {
+    background-color: #85ce61;
+}
+
+.sampling-results {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.sampling-results.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.chart-legend {
+    display: flex;
+    gap: 15px;
+}
+
+.legend-item {
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #909399; /* 默认灰色 */
+}
+
+.legend-item.active[data-type="hist"] { color: #409eff; font-weight: bold; }
+.legend-item.active[data-type="t"] { color: #003366; font-weight: bold; }
+
+.sampling-chart {
+    width: 100%;
+    height: 350px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+}
+
+.sampling-stats {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.download-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    background-color: white;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.download-btn:hover {
+    background-color: #ecf5ff;
+}
+
+#sampling-table th {
+    background-color: #f5f7fa;
+    font-size: 12px;
+}
+
+#sampling-table td {
+    font-size: 12px;
+}

@@ -11,6 +11,7 @@ import { initChart, updateChart } from './chart.js';
 import { updateTable } from './table.js';
 import { updateStatsUI } from './ui.js';
 import { initInteractions } from './interaction.js';
+import { initSampling } from './sampling.js';
 
 /**
  * 生成初始随机数据
@@ -62,6 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. 绑定交互事件（传入全局 update 引用）
     initInteractions(update);
 
-    // 4. 执行首次全局刷新
+    // 4. 初始化抽样模拟模块
+    initSampling();
+
+    // 5. 执行首次全局刷新
     update();
 });
