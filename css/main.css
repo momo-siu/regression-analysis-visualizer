@@ -78,13 +78,43 @@ body {
 
 .control-item input[type="range"] {
     width: 450px;
+    margin: 0;
+}
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    padding: 0 4px;
+}
+
+.slider-labels span {
+    font-size: 12px;
+    color: #909399; /* 灰色字体 */
+}
+
+.label-mid {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.slider-labels {
+    position: relative;
+    height: 16px;
 }
 
 /* 中间主要内容区 */
 .main-content {
     display: flex;
     gap: 16px;
-    height: 600px; /* 给图表区域一个固定的高度 */
+    height: 720px; /* 增加高度以完整显示统计指标 */
 }
 
 /* 底部表格区 */
@@ -152,6 +182,14 @@ th {
     padding: 16px;
     display: flex;
     flex-direction: column;
+    align-items: center; /* 居中图表 */
+}
+
+#main-chart {
+    aspect-ratio: 1 / 1;
+    height: 100%;
+    width: auto !important; /* 强制保持正方形 */
+    margin: 0 auto;
 }
 
 /* 图表工具栏 */
@@ -160,6 +198,7 @@ th {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
+    width: 100%; /* 确保占据整宽 */
 }
 
 /* 模式切换器（仿图示风格） */
@@ -250,6 +289,38 @@ th {
     grid-template-columns: 96px 1fr;
     align-items: center;
     column-gap: 10px;
+}
+
+/* Venn 图样式 */
+.venn-diagram-container {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.venn-circle {
+    position: absolute;
+    width: 120px; /* 显式设置基础大小 */
+    height: 120px;
+    border-radius: 50%;
+    mix-blend-mode: multiply;
+    transition: transform 0.1s ease-out;
+    left: 50%; /* 配合 transform: translate(-50%, -50%) 实现中心定位 */
+    top: 50%;
+}
+
+.venn-red {
+    background-color: rgba(180, 60, 60, 0.7);
+    z-index: 1;
+}
+
+.venn-blue {
+    background-color: rgba(60, 100, 180, 0.7);
+    z-index: 2;
 }
 
 .stats-label {
