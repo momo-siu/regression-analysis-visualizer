@@ -126,7 +126,7 @@
 
             <!-- 底部：方差分析 (ANOVA) 表格 -->
             <div class="panel">
-                <h2>方差分析 (ANOVA)</h2>
+                <h2>变异分解表格</h2>
                 <div class="table-container">
                     <table class="anova-table">
                         <thead>
@@ -166,6 +166,34 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- 回归变异分解图 -->
+            <div class="panel decomposition-panel">
+                <h2>回归变异分解图</h2>
+                <div class="decomposition-container">
+                    <div class="decomposition-item">
+                        <div class="sub-title math-render">总变异 $Y-\bar{Y}$</div>
+                        <div class="sub-chart-wrapper">
+                            <div id="chart-total" class="sub-chart"></div>
+                            <div id="label-total-mean" class="mean-label-overlay math-render">$\bar{Y}$</div>
+                        </div>
+                    </div>
+                    <div class="decomposition-item">
+                        <div class="sub-title math-render">解释的变异 $\hat{Y}-\bar{Y}$</div>
+                        <div class="sub-chart-wrapper">
+                            <div id="chart-explained" class="sub-chart"></div>
+                            <div id="label-explained-mean" class="mean-label-overlay math-render">$\bar{Y}$</div>
+                        </div>
+                    </div>
+                    <div class="decomposition-item">
+                        <div class="sub-title math-render">未解释的变异 $Y-\hat{Y}$</div>
+                        <div class="sub-chart-wrapper">
+                            <div id="chart-unexplained" class="sub-chart"></div>
+                            <div id="label-unexplained-mean" class="mean-label-overlay math-render">$\bar{Y}$</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

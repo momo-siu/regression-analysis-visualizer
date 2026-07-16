@@ -126,4 +126,26 @@ export function updateStatsUI() {
     if (elStatSP) elStatSP.textContent = String(roundNumber(statistics.sumXY, 3));
     if (elStatCov) elStatCov.textContent = String(roundNumber(statistics.covariance, 3));
     if (elStatR) elStatR.textContent = String(roundNumber(statistics.r, 3));
+
+    // --- 4. 渲染变异分解图标题 (如果尚未渲染) ---
+    renderMathTitles();
+}
+
+/**
+ * 渲染页面中带有 .math-render 类的 KaTeX 公式
+ */
+function renderMathTitles() {
+    if (!window.katex) return;
+    const elements = document.querySelectorAll('.math-render');
+    elements.forEach(el => {
+        const text = el.textContent;
+        if (text.includes('$')) {
+            const parts = text.split('$');
+            el.textContent = parts[0]; // 保留中文前缀
+            const span = document.createElement('span');
+            katex.render(parts[1], span, { throwOnError: false });
+            el.appendChild(span);
+            el.classList.remove('math-render'); // 标记为已渲染
+        }
+    });
 }
