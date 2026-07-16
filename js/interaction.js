@@ -5,6 +5,7 @@
 
 import { state } from './state.js';
 import { getStandardNormal, calculateMean } from './utils.js';
+import { generateRandomData } from './app.js';
 
 /**
  * 根据目标相关系数重新生成数据集
@@ -122,6 +123,19 @@ export function initInteractions(updateCallback) {
 
         rSlider.addEventListener('input', handleRChange);
         rInput.addEventListener('change', handleRChange);
+    }
+
+    // 4. 绑定随机生成按钮
+    const generateBtn = document.getElementById('generate-btn');
+    const countInput = document.getElementById('random-count-input');
+    if (generateBtn && countInput) {
+        generateBtn.addEventListener('click', () => {
+            const count = parseInt(countInput.value);
+            if (!isNaN(count) && count > 0) {
+                generateRandomData(count);
+                updateCallback();
+            }
+        });
     }
 }
 

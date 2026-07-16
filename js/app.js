@@ -15,12 +15,12 @@ import { initSampling } from './sampling.js';
 
 /**
  * 生成初始随机数据
+ * @param {number} count - 生成点的数量
  */
-function initData() {
-    const pointCount = 25;
+export function generateRandomData(count = 25) {
     state.points = [];
     
-    for (let i = 0; i < pointCount; i++) {
+    for (let i = 0; i < count; i++) {
         state.points.push({
             x: getRandomFloat(95, 105),
             y: getRandomFloat(90, 110)
@@ -32,7 +32,7 @@ function initData() {
  * 统一的页面刷新机制 (Data Driven)
  * 任何交互只修改 state.points，然后调用此方法
  */
-function update() {
+export function update() {
     // 1. 计算描述性统计量
     state.statistics = calculateStatistics(state.points);
 
@@ -54,7 +54,7 @@ function update() {
  */
 document.addEventListener('DOMContentLoaded', () => {
     // 1. 初始化数据
-    initData();
+    generateRandomData(25);
 
     // 2. 初始化 ECharts 实例，传入 update 作为拖拽回调
     const chartContainer = document.getElementById('main-chart');

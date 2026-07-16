@@ -48,7 +48,17 @@
                             <span id="zoom-value">100%</span>
                         </div>
                     </div>
-                    <div id="main-chart" style="width: 100%; height: 100%; margin: 0 auto;"></div>
+                    <div class="chart-container">
+                        <div class="random-gen-control">
+                            <div class="control-label">随机生成散点</div>
+                            <div class="control-input-group">
+                                <input type="number" id="random-count-input" value="25" min="1" max="500">
+                                <span>个</span>
+                            </div>
+                            <button id="generate-btn" class="action-btn">重新生成</button>
+                        </div>
+                        <div id="main-chart" style="width: 100%; height: 100%; margin: 0 auto;"></div>
+                    </div>
                 </div>
             </main>
 
