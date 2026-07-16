@@ -278,3 +278,51 @@ th {
 .anova-table th, .anova-table td {
     padding: 10px;
 }
+
+/* 回归变异分解图样式 */
+.decomposition-panel {
+    margin-top: 16px;
+}
+
+.decomposition-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0;
+}
+
+.decomposition-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sub-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.sub-chart {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    min-height: 300px;
+}
+
+.sub-chart-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.mean-label-overlay {
+    position: absolute;
+    right: 5px;
+    pointer-events: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    z-index: 10;
+    transform: translateY(-50%);
+}
