@@ -22,7 +22,10 @@ export function updateStatsUI() {
         try {
             statPanel.textContent = '';
 
+            // 1. 定义指标行，包含顶部和底部的 R/R^2
             const rows = [
+                { label: '相关系数：', tex: `R=${roundNumber(statistics.r, 4)}` },
+                { label: '决定系数：', tex: `R^2=${roundNumber(regression.r2, 4)}` },
                 { label: '样本量：', tex: `n=${n}` },
                 { label: '均值：', tex: `\\bar{x}=${roundNumber(statistics.meanX, 2)}` },
                 { label: '均值：', tex: `\\bar{y}=${roundNumber(statistics.meanY, 2)}` },
@@ -37,20 +40,24 @@ export function updateStatsUI() {
             const table = document.createElement('div');
             table.className = 'stats-lines';
 
-            for (const row of rows) {
-                const rowEl = document.createElement('div');
-                rowEl.className = 'stats-row';
+            // 2. 渲染前两行 (R 和 R^2)
+            for (let i = 0; i < 2; i++) {
+                renderRow(table, rows[i]);
+            }
 
-                const labelEl = document.createElement('div');
-                labelEl.className = 'stats-label';
-                labelEl.textContent = row.label;
+            // 3. 插入 Venn 图容器
+            const vennContainer = document.createElement('div');
+            vennContainer.className = 'venn-diagram-container';
+            vennContainer.innerHTML = `
+                <div class="venn-circle venn-red"></div>
+                <div class="venn-circle venn-blue"></div>
+            `;
+            table.appendChild(vennContainer);
+            updateVennDiagram(vennContainer, regression.r2);
 
-                const formulaEl = document.createElement('div');
-                formulaEl.className = 'stats-formula';
-                katex.render(row.tex, formulaEl, { displayMode: false, throwOnError: false });
-
-                rowEl.append(labelEl, formulaEl);
-                table.append(rowEl);
+            // 4. 渲染剩余行
+            for (let i = 2; i < rows.length; i++) {
+                renderRow(table, rows[i]);
             }
 
             statPanel.append(table);
@@ -129,6 +136,64 @@ export function updateStatsUI() {
 
     // --- 4. 渲染变异分解图标题 (如果尚未渲染) ---
     renderMathTitles();
+}
+
+/**
+ * 渲染单行统计指标
+ */
+function renderRow(container, row) {
+    const rowEl = document.createElement('div');
+    rowEl.className = 'stats-row';
+
+    const labelEl = document.createElement('div');
+    labelEl.className = 'stats-label';
+    labelEl.textContent = row.label;
+
+    const formulaEl = document.createElement('div');
+    formulaEl.className = 'stats-formula';
+    katex.render(row.tex, formulaEl, { displayMode: false, throwOnError: false });
+
+    rowEl.append(labelEl, formulaEl);
+    container.append(rowEl);
+}
+
+/**
+ * 更新 Venn 图中两个圆的重叠程度
+ * 重叠面积 A = R^2，假设圆面积为 1 (半径 r = sqrt(1/pi))
+ * 使用数值逼近方法计算圆心距 d
+ */
+function updateVennDiagram(container, r2) {
+    const redCircle = container.querySelector('.venn-red');
+    const blueCircle = container.querySelector('.venn-blue');
+    
+    // r = sqrt(1/pi) ≈ 0.564189
+    const r = 0.564189;
+    const targetArea = Math.max(0.0001, Math.min(0.9999, r2));
+    
+    // 二分法寻找距离 d，使得重叠面积等于 targetArea
+    // 重叠面积公式: A = 2r^2 * acos(d/2r) - (d/2) * sqrt(4r^2 - d^2)
+    let low = 0;
+    let high = 2 * r;
+    let d = high;
+    
+    for (let i = 0; i < 20; i++) {
+        d = (low + high) / 2;
+        const area = 2 * r * r * Math.acos(d / (2 * r)) - (d / 2) * Math.sqrt(4 * r * r - d * d);
+        if (area > targetArea) {
+            low = d;
+        } else {
+            high = d;
+        }
+    }
+
+    // 将 d 映射到像素或百分比偏移
+    // 假设圆直径为 120px
+    const baseSize = 120; 
+    const distancePx = (d / (2 * r)) * baseSize;
+   // 居中显示并应用偏移
+    const offset = distancePx / 2;
+    redCircle.style.transform = `translate(-50%, -50%) translateX(${-offset}px)`;
+    blueCircle.style.transform = `translate(-50%, -50%) translateX(${offset}px)`;
 }
 
 /**
