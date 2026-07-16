@@ -28,9 +28,24 @@
 
 ## 目录结构
 
-- `index.html`：主页面。
-- `js/`：包含所有逻辑代码，按功能拆分为图表渲染、回归计算、交互处理等模块。
-- `css/main.css`：定义了美观、现代的响应式界面布局。
+```text
+regression-analysis-visualizer/
+├── index.html           // 主页面
+├── css/
+│   └── main.css         // 响应式布局及组件样式
+├── js/
+│   ├── app.js           // 程序入口，负责初始化和统筹刷新
+│   ├── state.js         // 全局状态管理
+│   ├── regression.js    // 回归分析核心算法（最小二乘法）
+│   ├── statistics.js    // 统计指标计算（Pearson 相关系数等）
+│   ├── chart.js         // ECharts 图表初始化与数据更新
+│   ├── table.js         // 左侧数据表格动态生成
+│   ├── interaction.js   // 鼠标交互模块
+│   ├── ui.js            // 右侧统计量文本及 Venn 图更新
+│   └── utils.js         // 数值处理、随机数等纯工具函数
+├── .gitignore
+└── README.md
+```
 
 ## 技术方案
 
