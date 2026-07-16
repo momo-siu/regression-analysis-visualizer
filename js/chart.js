@@ -55,7 +55,7 @@ export function initChart(container, updateCb) {
             max: 120,
             name: 'Y',
             nameLocation: 'middle',
-            nameRotate: 90,
+            nameRotate: 0,
             nameGap: 40,
             splitLine: { lineStyle: { type: 'dashed' } },
             axisLabel: {
