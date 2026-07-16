@@ -15,58 +15,60 @@ function generateDataForTargetR(targetR) {
     const n = points.length;
     if (n < 3) return;
 
-    const { meanX, meanY, sdX, sdY } = statistics;
+    const { meanX, meanY, sdX, sdY, r } = statistics;
 
-    // 提取所有 X 并标准化
-    const xs = points.map(p => p.x);
-    
-    // 生成标准的 Y：Y_std = targetR * X_std + sqrt(1 - targetR^2) * Z
-    // 我们先计算 X_std
-    const xStd = xs.map(x => sdX > 0 ? (x - meanX) / sdX : 0);
+    // 1. 提取并标准化当前的 X 和 Y
+    const xStd = points.map(p => sdX > 0 ? (p.x - meanX) / sdX : 0);
+    const yStdCurrent = points.map(p => sdY > 0 ? (p.y - meanY) / sdY : 0);
 
-    // 1. 生成纯随机正态分布 Z
-    let zs = [];
-    for (let i = 0; i < n; i++) {
-        zs.push(getStandardNormal());
+    // 2. 计算当前 Y 向量中与 X 正交的分量 (残差项)
+    // 在标准化空间中：yStd = r * xStd + e
+    let e = yStdCurrent.map((y, i) => y - r * xStd[i]);
+
+    // 3. 计算正交分量的标准差
+    // 理论上 Var(e) = 1 - r^2
+    const currentVarE = 1 - r * r;
+    const currentSdE = currentVarE > 1e-10 ? Math.sqrt(currentVarE) : 0;
+
+    let zStd;
+    if (currentSdE > 1e-4) {
+        // 如果当前有足够的分量，则使用当前分量（保持数据“形状”）
+        zStd = e.map(val => val / currentSdE);
+    } else {
+        // 如果当前数据已经完全线性相关，则无法提取正交分量，需生成随机正交分量
+        let zs = points.map(() => getStandardNormal());
+        const meanZ = calculateMean(zs);
+        zs = zs.map(z => z - meanZ);
+        
+        let covXZ = 0;
+        for (let i = 0; i < n; i++) {
+            covXZ += xStd[i] * zs[i];
+        }
+        covXZ /= (n - 1);
+        
+        zs = zs.map((z, i) => z - covXZ * xStd[i]);
+        
+        let varZ = 0;
+        for (let i = 0; i < n; i++) {
+            varZ += zs[i] * zs[i];
+        }
+        varZ /= (n - 1);
+        const sdZ = varZ > 0 ? Math.sqrt(varZ) : 1;
+        zStd = zs.map(z => z / sdZ);
     }
 
-    // 2. 正交化 Z，使其与 X_std 协方差为 0，且均值为 0，方差为 1
-    const meanZ = calculateMean(zs);
-    zs = zs.map(z => z - meanZ);
-    
-    let covXZ = 0;
-    for (let i = 0; i < n; i++) {
-        covXZ += xStd[i] * zs[i];
-    }
-    covXZ /= (n - 1);
-    
-    zs = zs.map((z, i) => z - covXZ * xStd[i]);
-    
-    let varZ = 0;
-    for (let i = 0; i < n; i++) {
-        varZ += zs[i] * zs[i];
-    }
-    varZ /= (n - 1);
-    
-    const sdZ = varZ > 0 ? Math.sqrt(varZ) : 1;
-    const zStd = zs.map(z => z / sdZ);
-
+    // 4. 合成新的标准化 Y
+    // yStdNew = targetR * xStd + sqrt(1 - targetR^2) * zStd
     const coeff = Math.sqrt(1 - targetR * targetR);
     
-    const newPoints = [];
-    for (let i = 0; i < n; i++) {
-        let yStd = targetR * xStd[i] + coeff * zStd[i];
-        
-        // 缩放回原始的 meanY 和 sdY
-        let y = yStd * sdY + meanY;
-        
-        // 注意：不要在这里进行 Math.max/min 截断，否则会导致方差和相关系数丢失，从而引起反复拖拽时的收缩（Bug）。
-
-        newPoints.push({
-            x: xs[i],
-            y: y
-        });
-    }
+    const newPoints = points.map((p, i) => {
+        const yStdNew = targetR * xStd[i] + coeff * zStd[i];
+        // 5. 还原到原始的均值和标准差
+        return {
+            x: p.x,
+            y: yStdNew * sdY + meanY
+        };
+    });
 
     state.points = newPoints;
 }
