@@ -142,7 +142,7 @@ th {
 
 /* 中间区域：ECharts图表 */
 .chart-area {
-    flex: 1;
+    flex: 0 0 660px;
     display: flex;
     flex-direction: column;
 }
@@ -215,7 +215,8 @@ th {
 
 /* 右侧边栏：统计量 */
 .sidebar-right {
-    width: 350px;
+    flex: 1;
+    min-width: 420px;
     display: flex;
     flex-direction: column;
 }
@@ -230,9 +231,39 @@ th {
 #math-stats-container {
     font-size: 16px;
     display: flex;
+    align-items: stretch;
+    flex: 1;
+}
+
+.stats-lines {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 8px 4px;
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.stats-label {
+    text-align: left;
+    color: var(--text-main);
+    font-size: 16px;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.stats-formula {
+    display: flex;
     justify-content: center;
     align-items: center;
-    flex: 1;
+    min-height: 28px;
+    font-size: 16px;
 }
 
 /* 底部区域 */

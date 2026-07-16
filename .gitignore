@@ -4,6 +4,3 @@ node_modules/
 .idea/
 *.log
 plan.md
-
-test_bug.js
-test_bug2.js
