@@ -2,6 +2,15 @@
 
 本项目是一个用于演示一元线性回归分析全过程的纯前端教学用统计可视化网站。旨在以直观的方式展示回归拟合过程，并为后续进一步扩展交互与深入统计分析提供高工程质量的基础框架。
 
+## 启动方式
+
+本项目采用原生 ES6 Module 开发，需在本地 HTTP 服务器环境下运行以避免跨域限制：
+1. **VS Code**：安装并使用 `Live Server` 插件，在 `index.html` 右键点击 "Open with Live Server"。
+2. **Python**：在项目根目录运行 `python -m http.server 8000`（或 `python3 -m http.server`）。
+3. **Node.js**：在项目根目录运行 `npx serve .`。
+
+服务启动后，通过浏览器访问对应本地端口即可预览效果。
+
 ## 功能特性
 
 当前（第一版）已实现功能：
@@ -37,15 +46,6 @@ regression-analysis-visualizer/
 - **技术栈**：HTML5, CSS3, JavaScript (ES6 Module), Apache ECharts (CDN 引入)。
 - **零依赖**：未引入任何前端构建框架 (如 React / Vue) 及 jQuery。
 - **工程化**：模块化拆分、无全局变量、单一职责函数、完整的 JSDoc 注释。
-
-## 运行方式
-
-本项目采用原生 ES6 Module 开发，需在本地 HTTP 服务器环境下运行以避免跨域限制：
-1. **VS Code**：安装并使用 `Live Server` 插件，在 `index.html` 右键点击 "Open with Live Server"。
-2. **Python**：在项目根目录运行 `python -m http.server 8000`（或 `python3 -m http.server`）。
-3. **Node.js**：在项目根目录运行 `npx serve .`。
-
-服务启动后，通过浏览器访问对应本地端口即可预览效果。
 
 ## 后续开发计划
 
