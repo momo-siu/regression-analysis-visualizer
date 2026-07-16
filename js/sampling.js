@@ -65,17 +65,20 @@ function setupEventListeners() {
     // 3. 分析按钮
     document.getElementById('analyze-btn').addEventListener('click', runSamplingAnalysis);
 
-    // 4. 图例切换
-    document.querySelectorAll('.legend-item').forEach(item => {
-        item.addEventListener('click', () => {
+    // 4. 图例切换 (使用复选框)
+    document.querySelectorAll('.legend-item input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            const item = checkbox.closest('.legend-item');
             const type = item.dataset.type;
+            const isChecked = checkbox.checked;
+
             if (type === 'hist') {
-                isHistVisible = !isHistVisible;
-                item.classList.toggle('active', isHistVisible);
+                isHistVisible = isChecked;
             } else {
-                isTVisible = !isTVisible;
-                item.classList.toggle('active', isTVisible);
+                isTVisible = isChecked;
             }
+            
+            item.classList.toggle('active', isChecked);
             updateSamplingChart();
         });
     });
@@ -333,7 +336,7 @@ function downloadData() {
     if (allSamplingData.length === 0) return;
     
     let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "实验号,截距a,斜率b,t,F,相关系数r,Y均值\n";
+    csvContent += "实验号,截距a,斜率b,t,F,相关系数R,Y均值\n";
     
     allSamplingData.forEach(row => {
         csvContent += `${row.id},${row.a},${row.b},${row.t},${row.f},${row.r},${row.meanY}\n`;
