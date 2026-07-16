@@ -21,23 +21,46 @@ function generateDataForTargetR(targetR) {
     const xs = points.map(p => p.x);
     
     // 生成标准的 Y：Y_std = targetR * X_std + sqrt(1 - targetR^2) * Z
-    // 其中 Z 是标准正态随机变量
-    const coeff = Math.sqrt(1 - targetR * targetR);
-    
     // 我们先计算 X_std
     const xStd = xs.map(x => sdX > 0 ? (x - meanX) / sdX : 0);
 
+    // 1. 生成纯随机正态分布 Z
+    let zs = [];
+    for (let i = 0; i < n; i++) {
+        zs.push(getStandardNormal());
+    }
+
+    // 2. 正交化 Z，使其与 X_std 协方差为 0，且均值为 0，方差为 1
+    const meanZ = calculateMean(zs);
+    zs = zs.map(z => z - meanZ);
+    
+    let covXZ = 0;
+    for (let i = 0; i < n; i++) {
+        covXZ += xStd[i] * zs[i];
+    }
+    covXZ /= (n - 1);
+    
+    zs = zs.map((z, i) => z - covXZ * xStd[i]);
+    
+    let varZ = 0;
+    for (let i = 0; i < n; i++) {
+        varZ += zs[i] * zs[i];
+    }
+    varZ /= (n - 1);
+    
+    const sdZ = varZ > 0 ? Math.sqrt(varZ) : 1;
+    const zStd = zs.map(z => z / sdZ);
+
+    const coeff = Math.sqrt(1 - targetR * targetR);
+    
     const newPoints = [];
     for (let i = 0; i < n; i++) {
-        const z = getStandardNormal();
-        let yStd = targetR * xStd[i] + coeff * z;
+        let yStd = targetR * xStd[i] + coeff * zStd[i];
         
         // 缩放回原始的 meanY 和 sdY
         let y = yStd * sdY + meanY;
         
-        // 限制在图表范围内 (80~120 以外可能会被裁掉，这里做适度限制或不限制)
-        // 避免极值破坏显示
-        y = Math.max(60, Math.min(140, y));
+        // 注意：不要在这里进行 Math.max/min 截断，否则会导致方差和相关系数丢失，从而引起反复拖拽时的收缩（Bug）。
 
         newPoints.push({
             x: xs[i],

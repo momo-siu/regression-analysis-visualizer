@@ -22,6 +22,12 @@ export function initChart(container, updateCb) {
     
     const option = {
         animation: false,
+        grid: {
+            left: 50,
+            right: 50,
+            top: 50,
+            bottom: 50
+        },
         tooltip: {
             trigger: 'item',
             formatter: function (params) {
