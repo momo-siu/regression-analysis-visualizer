@@ -65,6 +65,9 @@ function setupEventListeners() {
     // 3. 分析按钮
     document.getElementById('analyze-btn').addEventListener('click', runSamplingAnalysis);
 
+    // 6. 重置按钮
+    document.getElementById('reset-sampling-btn').addEventListener('click', resetSampling);
+
     // 4. 图例切换 (使用复选框)
     document.querySelectorAll('.legend-item input[type="checkbox"]').forEach(checkbox => {
         checkbox.addEventListener('change', () => {
@@ -85,6 +88,44 @@ function setupEventListeners() {
 
     // 5. 下载按钮
     document.getElementById('download-btn').addEventListener('click', downloadData);
+}
+
+/**
+ * 重置所有抽样参数并隐藏结果
+ */
+function resetSampling() {
+    // 1. 恢复输入框和滑块默认值
+    const defaults = {
+        'mu1-input': '20.0', 'mu1-slider': '20.0',
+        'sigma1-input': '4.0', 'sigma1-slider': '4.0',
+        'mu2-input': '20.0', 'mu2-slider': '20.0',
+        'sigma2-input': '8.0', 'sigma2-slider': '8.0',
+        'beta-input': '0.000', 'beta-slider': '0.000',
+        'n-input': '15', 'n-slider': '15'
+    };
+
+    for (const [id, val] of Object.entries(defaults)) {
+        document.getElementById(id).value = val;
+    }
+
+    // 2. 恢复 R 抽样次数单选按钮 (默认 10000)
+    const rRadios = document.getElementsByName('r-choice');
+    rRadios.forEach(radio => {
+        radio.checked = radio.value === '10000';
+    });
+    document.getElementById('r-custom-input').value = '';
+
+    // 3. 更新非标准化系数显示
+    updateUnstdBeta();
+
+    // 4. 隐藏分析结果区域并清理数据
+    document.getElementById('sampling-results').classList.add('hidden');
+    allSamplingData = [];
+    
+    // 5. 如果有图表，销毁或清空（这里选择隐藏结果区已足够，但清空数据更彻底）
+    if (samplingChart) {
+        samplingChart.clear();
+    }
 }
 
 /**
