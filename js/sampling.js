@@ -376,18 +376,24 @@ function updateSamplingTable() {
 function downloadData() {
     if (allSamplingData.length === 0) return;
     
-    let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "实验号,截距a,斜率b,t,F,相关系数R,Y均值\n";
+    // 添加 UTF-8 BOM (\uFEFF) 以解决 Excel 打开中文乱码问题
+    let csvContent = "\uFEFF";
+    csvContent += "实验号,截距a,斜率b,t,F,相关系数r,Y均值\n";
     
     allSamplingData.forEach(row => {
-        csvContent += `${row.id},${row.a},${row.b},${row.t},${row.f},${row.r},${row.meanY}\n`;
+        csvContent += `${row.id},${row.a.toFixed(6)},${row.b.toFixed(6)},${row.t.toFixed(6)},${row.f.toFixed(6)},${row.r.toFixed(6)},${row.meanY.toFixed(6)}\n`;
     });
     
-    const encodedUri = encodeURI(csvContent);
+    // 使用 Blob 处理大文件并指定 MIME 类型
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    
     const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
+    link.setAttribute("href", url);
     link.setAttribute("download", `regression_sampling_R${allSamplingData.length}.csv`);
+    link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url); // 释放内存
 }
