@@ -63,7 +63,17 @@ function getBaseOption(xName, yName) {
             trigger: 'item',
             formatter: function (params) {
                 if (params.seriesType === 'scatter') {
-                    return `X: ${params.value[0].toFixed(2)}<br/>Y: ${params.value[1].toFixed(2)}`;
+                    return `<b>${params.seriesName}</b><br/>X: ${params.value[0].toFixed(2)}<br/>Y: ${params.value[1].toFixed(2)}`;
+                }
+                if (params.seriesType === 'line') {
+                    // 对于回归直线，显示其在当前点的坐标
+                    return `<b>${params.seriesName}</b><br/>X: ${params.value[0].toFixed(2)}<br/>Ŷ: ${params.value[1].toFixed(2)}`;
+                }
+                if (params.seriesType === 'lines') {
+                    // 对于变异分解的红色虚线，直接显示有符号的数值
+                    const coords = params.data.coords;
+                    const diff = (coords[0][1] - coords[1][1]).toFixed(3);
+                    return `${diff}`;
                 }
                 return params.seriesName;
             }
@@ -245,6 +255,7 @@ function updateDecompositionCharts(points, regression, statistics) {
     ];
 
     const linesStyle = {
+        name: '变异值',
         type: 'lines',
         coordinateSystem: 'cartesian2d',
         lineStyle: {
