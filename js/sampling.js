@@ -344,16 +344,16 @@ function updateSamplingChart() {
 }
 
 /**
- * 更新结果表格 (展示最后 6 次)
+ * 更新结果表格 (展示最后 10 次)
  */
 function updateSamplingTable() {
     const tbody = document.querySelector('#sampling-table tbody');
     tbody.innerHTML = '';
     
-    // 获取最后 6 次抽样并按实验号从小到大正序排序
-    const lastSix = allSamplingData.slice(-6).sort((a, b) => a.id - b.id);
+    // 获取最后 10 次抽样并按实验号从小到大正序排序
+    const lastTen = allSamplingData.slice(-10).sort((a, b) => a.id - b.id);
     
-    lastSix.forEach(row => {
+    lastTen.forEach(row => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${row.id}</td>

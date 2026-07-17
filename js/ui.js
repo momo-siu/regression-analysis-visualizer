@@ -27,14 +27,14 @@ export function updateStatsUI() {
                 { label: '相关系数：', tex: `R=${roundNumber(statistics.r, 4)}` },
                 { label: '决定系数：', tex: `R^2=${roundNumber(regression.r2, 4)}` },
                 { label: '样本量：', tex: `n=${n}` },
-                { label: '均值：', tex: `\\bar{x}=${roundNumber(statistics.meanX, 2)}` },
-                { label: '均值：', tex: `\\bar{y}=${roundNumber(statistics.meanY, 2)}` },
-                { label: '标准差：', tex: `S_x=${roundNumber(statistics.sdX, 2)}` },
-                { label: '标准差：', tex: `S_y=${roundNumber(statistics.sdY, 2)}` },
-                { label: '协方差：', tex: `\\text{Cov}(x,y)=${roundNumber(statistics.covariance, 3)}` },
+                { label: '均值：', tex: `\\bar{X}=${roundNumber(statistics.meanX, 2)}` },
+                { label: '均值：', tex: `\\bar{Y}=${roundNumber(statistics.meanY, 2)}` },
+                { label: '标准差：', tex: `S_X=${roundNumber(statistics.sdX, 2)}` },
+                { label: '标准差：', tex: `S_Y=${roundNumber(statistics.sdY, 2)}` },
+                { label: '协方差：', tex: `\\text{Cov}(X,Y)=${roundNumber(statistics.covariance, 3)}` },
                 { label: '相关系数：', tex: `R=${roundNumber(statistics.r, 4)}` },
                 { label: '决定系数：', tex: `R^2=${roundNumber(regression.r2, 4)}` },
-                { label: '回归方程：', tex: `\\hat{y}=${roundNumber(regression.slope, 3)}x${sign}${absIntercept}` }
+                { label: '回归方程：', tex: `\\hat{Y}=${roundNumber(regression.slope, 3)}X${sign}${absIntercept}` }
             ];
 
             const table = document.createElement('div');
