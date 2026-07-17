@@ -23,7 +23,7 @@
 
 本项目为纯前端实现，无需安装后端环境，但由于使用了 ES 模块，建议在本地服务器环境下运行：
 
-1. **Python 用户**：在项目根目录运行 `python -m http.server 8080`，然后访问 `localhost:8080`。
+1. **Python 用户**：在项目根目录运行 `python -m http.server 8000`，然后访问 `localhost:8000`。
 2. **VS Code 用户**：安装 `Live Server` 插件，在 `index.html` 上点击“Open with Live Server”。
 
 ## 目录结构
