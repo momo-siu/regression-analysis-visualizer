@@ -4,7 +4,7 @@
  */
 
 import { state } from './state.js';
-import { getRandomFloat } from './utils.js';
+import { getStandardNormal } from './utils.js';
 import { calculateStatistics } from './statistics.js';
 import { calculateRegression } from './regression.js';
 import { initChart, updateChart } from './chart.js';
@@ -19,12 +19,59 @@ import { initSampling } from './sampling.js';
  */
 export function generateRandomData(count = 25) {
     state.points = [];
-    
+
+    const chartEl = document.getElementById('main-chart');
+    const width = Math.max(1, chartEl?.clientWidth ?? 1);
+    const height = Math.max(1, chartEl?.clientHeight ?? 1);
+
+    const zoomLevel = state.zoomLevel || 100;
+    const baseRange = 40;
+    const currentRange = baseRange * (100 / zoomLevel);
+    const center = 100;
+    const min = center - currentRange / 2;
+    const max = center + currentRange / 2;
+    const margin = currentRange * 0.08;
+
+    const rInput = document.getElementById('r-input');
+    const rSlider = document.getElementById('r-slider');
+    let targetR = parseFloat(rInput?.value ?? rSlider?.value ?? '0');
+    if (isNaN(targetR)) targetR = 0;
+    targetR = Math.max(-1, Math.min(1, targetR));
+
+    const coeff = Math.sqrt(Math.max(0, 1 - targetR * targetR));
+    const baseSdPx = 0.2 * Math.min(width, height);
+    const sdXpx = baseSdPx * 1.25;
+    const sdYpx = baseSdPx * 0.45;
+    const sdX = sdXpx / (width / currentRange);
+    const sdY = sdYpx / (height / currentRange);
+
     for (let i = 0; i < count; i++) {
-        state.points.push({
-            x: getRandomFloat(95, 105),
-            y: getRandomFloat(90, 110)
-        });
+        let x = center;
+        let y = center;
+        let attempts = 0;
+
+        while (attempts < 30) {
+            const u = getStandardNormal();
+            const v = getStandardNormal();
+            const xStd = u;
+            const yStd = targetR * u + coeff * v;
+
+            x = center + xStd * sdX;
+            y = center + yStd * sdY;
+
+            if (
+                x >= min + margin &&
+                x <= max - margin &&
+                y >= min + margin &&
+                y <= max - margin
+            ) {
+                break;
+            }
+
+            attempts++;
+        }
+
+        state.points.push({ x, y });
     }
 }
 
