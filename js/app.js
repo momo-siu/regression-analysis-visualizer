@@ -41,7 +41,7 @@ export function generateRandomData(count = 25) {
     const coeff = Math.sqrt(Math.max(0, 1 - targetR * targetR));
     const baseSdPx = 0.2 * Math.min(width, height);
     const sdXpx = baseSdPx * 1.25;
-    const sdYpx = baseSdPx * 0.45;
+    const sdYpx = baseSdPx * 0.60;
     const sdX = sdXpx / (width / currentRange);
     const sdY = sdYpx / (height / currentRange);
 
