@@ -235,7 +235,7 @@ th {
 }
 
 .mode-btn.active {
-    background-color: #386cfb; /* 比散点颜色 #5b70ad 稍深一点的颜色 */
+    background-color: #0075FF;
     color: white;
 }
 
