@@ -460,30 +460,27 @@ th {
 }
 
 .panel-header {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    gap: 12px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 15px;
-    width: 100%;
+    min-height: 40px; /* 确保有足够高度容纳绝对定位的按钮 */
 }
 
 .panel-header h2 {
     margin: 0 !important;
-    display: inline-block !important;
+    text-align: center;
 }
 
 .reset-btn {
-    background: transparent !important;
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-    appearance: none;
-    -webkit-appearance: none;
-    color: #ff4d4f !important;
+    position: absolute;
+    left: 0;
+    background: none;
+    border: none;
+    color: #ff4d4f;
     cursor: pointer;
-    display: flex !important;
+    display: flex;
     align-items: center;
     gap: 6px;
     font-size: 15px;
@@ -491,7 +488,7 @@ th {
     padding: 4px 8px;
     border-radius: 4px;
     transition: all 0.2s;
-    flex-shrink: 0;
+    z-index: 1;
 }
 
 .reset-btn:hover {
