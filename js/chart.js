@@ -118,7 +118,7 @@ function getBaseOption(xName, yName) {
                 name: '回归直线',
                 type: 'line',
                 showSymbol: false,
-                itemStyle: { color: '#5b70ad' },
+                itemStyle: { color: '#d04649ff' },
                 lineStyle: { width: 2, type: 'solid' },
                 data: [],
                 zIndex: 4
@@ -207,13 +207,13 @@ function updateDecompositionCharts(points, regression, statistics) {
         },
         lineStyle: {
             type: 'dashed',
-            color: '#999',
-            width: 1
+            color: '#969aa4ff',
+            width: 2
         },
         data: [{ yAxis: meanY }]
     };
 
-    // 生成红虚线辅助线 (变异分解)
+    // 生成辅助线 (变异分解)
     // 1. 总变异: Y - Y_bar
     const linesTotal = points.map(p => ({
         coords: [[p.x, p.y], [p.x, meanY]]
@@ -236,7 +236,11 @@ function updateDecompositionCharts(points, regression, statistics) {
     });
 
     const commonSeries = [
-        { data: scatterData },
+        { 
+            data: scatterData,
+            symbolSize: 7, // 分解图散点直径减小
+            itemStyle: { color: '#413f46ff', opacity: 1 } // 分解图点用黑色
+        },
         { data: lineData, markLine: meanMarkLine }
     ];
 
@@ -244,9 +248,9 @@ function updateDecompositionCharts(points, regression, statistics) {
         type: 'lines',
         coordinateSystem: 'cartesian2d',
         lineStyle: {
-            color: '#f56c6c',
+            color: '#0075FF', // 辅助虚线用蓝色
             type: 'dashed',
-            width: 1
+            width: 2          // 加粗
         },
         zIndex: 3
     };
